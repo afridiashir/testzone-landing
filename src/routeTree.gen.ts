@@ -13,6 +13,7 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as SpecialistsRouteImport } from './routes/specialists'
+import { Route as VaccinationRouteImport } from './routes/vaccination'
 import { Route as DepartmentsIndexRouteImport } from './routes/departments.index'
 import { Route as DepartmentsSlugRouteImport } from './routes/departments.$slug'
 
@@ -36,6 +37,11 @@ const SpecialistsRoute = SpecialistsRouteImport.update({
   path: '/specialists',
   getParentRoute: () => rootRouteImport,
 } as any)
+const VaccinationRoute = VaccinationRouteImport.update({
+  id: '/vaccination',
+  path: '/vaccination',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const DepartmentsIndexRoute = DepartmentsIndexRouteImport.update({
   id: '/departments/',
   path: '/departments/',
@@ -52,6 +58,7 @@ export interface FileRoutesByFullPath {
   '/about': typeof AboutRoute
   '/contact': typeof ContactRoute
   '/specialists': typeof SpecialistsRoute
+  '/vaccination': typeof VaccinationRoute
   '/departments/$slug': typeof DepartmentsSlugRoute
   '/departments/': typeof DepartmentsIndexRoute
 }
@@ -60,6 +67,7 @@ export interface FileRoutesByTo {
   '/about': typeof AboutRoute
   '/contact': typeof ContactRoute
   '/specialists': typeof SpecialistsRoute
+  '/vaccination': typeof VaccinationRoute
   '/departments/$slug': typeof DepartmentsSlugRoute
   '/departments': typeof DepartmentsIndexRoute
 }
@@ -69,6 +77,7 @@ export interface FileRoutesById {
   '/about': typeof AboutRoute
   '/contact': typeof ContactRoute
   '/specialists': typeof SpecialistsRoute
+  '/vaccination': typeof VaccinationRoute
   '/departments/$slug': typeof DepartmentsSlugRoute
   '/departments/': typeof DepartmentsIndexRoute
 }
@@ -79,6 +88,7 @@ export interface FileRouteTypes {
     | '/about'
     | '/contact'
     | '/specialists'
+    | '/vaccination'
     | '/departments/$slug'
     | '/departments/'
   fileRoutesByTo: FileRoutesByTo
@@ -87,6 +97,7 @@ export interface FileRouteTypes {
     | '/about'
     | '/contact'
     | '/specialists'
+    | '/vaccination'
     | '/departments/$slug'
     | '/departments'
   id:
@@ -95,6 +106,7 @@ export interface FileRouteTypes {
     | '/about'
     | '/contact'
     | '/specialists'
+    | '/vaccination'
     | '/departments/$slug'
     | '/departments/'
   fileRoutesById: FileRoutesById
@@ -104,6 +116,7 @@ export interface RootRouteChildren {
   AboutRoute: typeof AboutRoute
   ContactRoute: typeof ContactRoute
   SpecialistsRoute: typeof SpecialistsRoute
+  VaccinationRoute: typeof VaccinationRoute
   DepartmentsSlugRoute: typeof DepartmentsSlugRoute
   DepartmentsIndexRoute: typeof DepartmentsIndexRoute
 }
@@ -138,6 +151,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SpecialistsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/vaccination': {
+      id: '/vaccination'
+      path: '/vaccination'
+      fullPath: '/vaccination'
+      preLoaderRoute: typeof VaccinationRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/departments/': {
       id: '/departments/'
       path: '/departments'
@@ -160,6 +180,7 @@ const rootRouteChildren: RootRouteChildren = {
   AboutRoute: AboutRoute,
   ContactRoute: ContactRoute,
   SpecialistsRoute: SpecialistsRoute,
+  VaccinationRoute: VaccinationRoute,
   DepartmentsSlugRoute: DepartmentsSlugRoute,
   DepartmentsIndexRoute: DepartmentsIndexRoute,
 }

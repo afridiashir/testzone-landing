@@ -8,6 +8,7 @@ const columns = [
       { label: "Home", to: "/" as const },
       { label: "About Us", to: "/about" as const },
       { label: "Departments", to: "/departments" as const },
+      { label: "Vaccination", to: "/vaccination" as const },
       { label: "Specialists", to: "/specialists" as const },
       { label: "Contact", to: "/contact" as const },
     ],
@@ -16,6 +17,7 @@ const columns = [
     title: "Services",
     links: [
       { label: "Home Sampling", to: "/contact" as const },
+      { label: "Vaccination", to: "/vaccination" as const },
       { label: "Full Test Directory", to: "/departments" as const },
       { label: "Corporate Health Panels", to: "/departments" as const },
       { label: "Doctor Consultation", to: "/specialists" as const },
