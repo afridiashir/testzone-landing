@@ -1,26 +1,54 @@
-# Exactly This
+# Test Zone Diagnostic Centre
 
-Implement exactly the screenshot and nothing else
+Marketing site for Test Zone Diagnostic Centre (TZDC) — Precision in Health.
 
-This project was built with [Lovable](https://lovable.dev).
+## Stack
 
-**Live app**: https://pixel-perfect-render-5965.lovable.app
-
-## Build with Lovable
-
-Continue developing this project in the [Lovable editor](https://lovable.dev/projects/02a9260d-0493-4118-b19c-fac271ede82f).
-
-- **Ship faster**: describe what you want to build and Lovable handles the code.
-- **Stay in sync**: every change made in Lovable is committed straight to this repository.
-- **Full ownership**: this code is yours. Push to `main` on GitHub and your changes sync back into Lovable, ready for your next prompt.
+- [Next.js 15](https://nextjs.org) (App Router, React 19)
+- Tailwind CSS v4 via `@tailwindcss/postcss`
+- shadcn/ui + Radix primitives
+- TypeScript
 
 ## Development
 
-Prefer working locally? You need Node.js and npm — [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating).
+You need Node.js and npm — [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating).
 
 ```sh
-git clone <this-repository-url>
-cd <repository-name>
-npm i
-npm run dev
+npm install
+npm run dev     # http://localhost:3000
 ```
+
+| Script           | Does                                  |
+| ---------------- | ------------------------------------- |
+| `npm run dev`    | Dev server with hot reload            |
+| `npm run build`  | Production build                      |
+| `npm start`      | Serve the production build            |
+| `npm run lint`   | ESLint (Next core-web-vitals + Prettier) |
+| `npm run format` | Prettier write                        |
+
+## Structure
+
+```
+src/
+  app/                  App Router — one folder per route
+    departments/[slug]/ Department detail pages (prerendered)
+  components/site/      Header, Footer, page sections
+  components/ui/        shadcn/ui primitives
+  data/                 Site content as typed data
+public/assets/          Images
+```
+
+Content lives in `src/data/` rather than being inlined in components:
+
+- `departments.ts` — department pages, transcribed from the TZDC Company
+  Profile 2025. Adding an entry creates its page, its card on `/departments`
+  and its entry in the nav dropdown.
+- `vaccines.ts` — vaccination list. Empty by default, which makes
+  `/vaccination` render an enquiry state instead of an unverified list.
+- `contact.ts` — phone, WhatsApp, email and address. Single source of truth.
+
+## History
+
+This project was started with [Lovable](https://lovable.dev) on TanStack Start
+and was later migrated to Next.js. The Lovable editor integration depended on
+`@lovable.dev/vite-tanstack-config` and does not carry over.

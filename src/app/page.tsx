@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import type { Metadata } from "next";
 import {
   Hero,
   QuickFeatures,
@@ -12,19 +12,13 @@ const title = "Test Zone Diagnostic Centre — Accurate Lab Tests, Delivered on 
 const description =
   "Accredited pathology and diagnostic laboratory offering 150+ tests, free home sampling and same-day online reports.";
 
-export const Route = createFileRoute("/")({
-  head: () => ({
-    meta: [
-      { title },
-      { name: "description", content: description },
-      { property: "og:title", content: title },
-      { property: "og:description", content: description },
-    ],
-  }),
-  component: Index,
-});
+export const metadata: Metadata = {
+  title,
+  description,
+  openGraph: { title, description },
+};
 
-function Index() {
+export default function Index() {
   return (
     <>
       <Hero />

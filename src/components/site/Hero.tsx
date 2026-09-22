@@ -1,6 +1,6 @@
+import Image from "next/image";
 import { Button } from "@/components/ui/button";
 // Agar aapne lab workers ki tasveer download kar li hai toh "hero-doctor.png" ko change karke us tasveer ka naam likh lein
-import heroImage from "@/assets/hero-doctor.png";
 
 export default function Hero() {
   return (
@@ -72,8 +72,10 @@ export default function Hero() {
           {/* Blue glow effect behind the image */}
           <div className="absolute inset-0 bg-blue-500/20 blur-[100px] rounded-full"></div>
 
-          <img
-            src={heroImage}
+          <Image
+            width={1024}
+            height={1200}
+            src="/assets/hero-doctor.png"
             alt="Medical Professional"
             className="max-w-full h-auto object-cover rounded-2xl shadow-2xl z-10 border border-white/10 relative"
           />

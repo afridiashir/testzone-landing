@@ -1,39 +1,39 @@
-import { Link } from "@tanstack/react-router";
+import Image from "next/image";
+import Link from "next/link";
 import { Mail, MapPin, MessageCircle, Phone } from "lucide-react";
 import { contact } from "@/data/contact";
-import logo from "@/assets/logo-tzdc.png";
 
 const columns = [
   {
     title: "Quick Links",
     links: [
-      { label: "Home", to: "/" as const },
-      { label: "About Us", to: "/about" as const },
-      { label: "Departments", to: "/departments" as const },
-      { label: "Vaccination", to: "/vaccination" as const },
-      { label: "Specialists", to: "/specialists" as const },
-      { label: "Contact", to: "/contact" as const },
+      { label: "Home", href: "/" },
+      { label: "About Us", href: "/about" },
+      { label: "Departments", href: "/departments" },
+      { label: "Vaccination", href: "/vaccination" },
+      { label: "Specialists", href: "/specialists" },
+      { label: "Contact", href: "/contact" },
     ],
   },
   {
     title: "Services",
     links: [
-      { label: "Home Sampling", to: "/contact" as const },
-      { label: "Vaccination", to: "/vaccination" as const },
-      { label: "Full Test Directory", to: "/departments" as const },
-      { label: "Corporate Health Panels", to: "/departments" as const },
-      { label: "Doctor Consultation", to: "/specialists" as const },
-      { label: "Online Reports", to: "/contact" as const },
+      { label: "Home Sampling", href: "/contact" },
+      { label: "Vaccination", href: "/vaccination" },
+      { label: "Full Test Directory", href: "/departments" },
+      { label: "Corporate Health Panels", href: "/departments" },
+      { label: "Doctor Consultation", href: "/specialists" },
+      { label: "Online Reports", href: "/contact" },
     ],
   },
   {
     title: "Legal",
     links: [
-      { label: "Privacy Policy", to: "/contact" as const },
-      { label: "Terms of Service", to: "/contact" as const },
-      { label: "Patient Rights", to: "/about" as const },
-      { label: "Quality Policy", to: "/about" as const },
-      { label: "Accreditations", to: "/about" as const },
+      { label: "Privacy Policy", href: "/contact" },
+      { label: "Terms of Service", href: "/contact" },
+      { label: "Patient Rights", href: "/about" },
+      { label: "Quality Policy", href: "/about" },
+      { label: "Accreditations", href: "/about" },
     ],
   },
 ];
@@ -46,7 +46,14 @@ export function Footer() {
           <div>
             <div className="flex items-center gap-2.5">
               <span className="grid size-11 shrink-0 place-items-center rounded-full bg-white p-1">
-                <img src={logo} alt="" aria-hidden="true" className="size-full object-contain" />
+                <Image
+                  width={256}
+                  height={256}
+                  src="/assets/logo-tzdc.png"
+                  alt=""
+                  aria-hidden="true"
+                  className="size-full object-contain"
+                />
               </span>
               <span className="leading-tight">
                 <span className="block text-lg font-bold">Test Zone</span>
@@ -97,7 +104,7 @@ export function Footer() {
                 {col.links.map((link) => (
                   <li key={link.label}>
                     <Link
-                      to={link.to}
+                      href={link.href}
                       className="text-sm text-navy-foreground/70 transition-colors hover:text-green"
                     >
                       {link.label}

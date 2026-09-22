@@ -2,13 +2,6 @@
 // Company Profile 2025 (TZDC). Clinical claims, instrument names and quality
 // programmes here are quoted from that profile — do not invent additions.
 
-import deptClinical from "@/assets/dept-clinical.jpg";
-import deptHematology from "@/assets/dept-hematology.jpg";
-import deptHistopathology from "@/assets/dept-histopathology.jpg";
-import deptMicrobiology from "@/assets/dept-microbiology.jpg";
-import deptMolecular from "@/assets/dept-molecular.jpg";
-import accreditations from "@/assets/accreditations.jpg";
-
 export type DeptItem = {
   /** Bolded lead-in, e.g. an instrument or test name. */
   label?: string;
@@ -40,7 +33,7 @@ export const departments: Department[] = [
     shortName: "Special Chemistry & Immunology",
     summary:
       "Tumor markers, hormone profiling, autoimmune serology and infectious disease testing on fully automated chemiluminescence platforms.",
-    image: deptClinical,
+    image: "/assets/dept-clinical.jpg",
     biosafety: "Biosafety Level 1 (BSL-1)",
     supervision: "Highly qualified and experienced professionals",
     blocks: [
@@ -82,7 +75,7 @@ export const departments: Department[] = [
     shortName: "Hematology",
     summary:
       "Routine and specialised hematology on five-part differential analysers, with HPLC electrophoresis, coagulation studies and bone marrow reporting.",
-    image: deptHematology,
+    image: "/assets/dept-hematology.jpg",
     biosafety: "Biosafety Level 1 (BSL-1)",
     supervision: "Qualified FCPS Hematologists",
     blocks: [
@@ -178,7 +171,7 @@ export const departments: Department[] = [
     shortName: "Molecular Biology",
     summary:
       "PCR-based diagnostics on QIAGEN (Germany) instrumentation endorsed by the CDC (USA), supervised by PhD and M. Phil Molecular Biologists.",
-    image: deptMolecular,
+    image: "/assets/dept-molecular.jpg",
     biosafety: "Biosafety Level 2 (BSL-2)",
     supervision: "PhD and M. Phil Molecular Biologists",
     blocks: [
@@ -210,7 +203,7 @@ export const departments: Department[] = [
     shortName: "Microbiology",
     summary:
       "Diagnosis and management of infectious disease — culture and sensitivity, staining and antimicrobial susceptibility under microbiologist supervision.",
-    image: deptMicrobiology,
+    image: "/assets/dept-microbiology.jpg",
     biosafety: "Biosafety Level 2 (BSL-2)",
     supervision: "Qualified and experienced microbiologists",
     blocks: [
@@ -258,7 +251,7 @@ export const departments: Department[] = [
     shortName: "Histopathology & Cytopathology",
     summary:
       "Microscopic examination of diseased tissue and cells, including IHC and ICC, reported by FCPS Histopathologists.",
-    image: deptHistopathology,
+    image: "/assets/dept-histopathology.jpg",
     supervision: "Highly qualified and experienced FCPS Histopathologists",
     blocks: [
       {
@@ -294,7 +287,7 @@ export const departments: Department[] = [
     shortName: "Quality Management",
     summary:
       "Internal and external quality control across all disciplines under ISO 15189:2022 accreditation and ISO 9001:2015 certification.",
-    image: accreditations,
+    image: "/assets/accreditations.jpg",
     blocks: [
       {
         type: "prose",
