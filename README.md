@@ -18,13 +18,13 @@ npm install
 npm run dev     # http://localhost:3000
 ```
 
-| Script           | Does                                  |
-| ---------------- | ------------------------------------- |
-| `npm run dev`    | Dev server with hot reload            |
-| `npm run build`  | Production build                      |
-| `npm start`      | Serve the production build            |
+| Script           | Does                                     |
+| ---------------- | ---------------------------------------- |
+| `npm run dev`    | Dev server with hot reload               |
+| `npm run build`  | Production build                         |
+| `npm start`      | Serve the production build               |
 | `npm run lint`   | ESLint (Next core-web-vitals + Prettier) |
-| `npm run format` | Prettier write                        |
+| `npm run format` | Prettier write                           |
 
 ## Structure
 

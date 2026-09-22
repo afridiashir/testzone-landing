@@ -1,0 +1,13 @@
+# Normalise line endings: the repo stores LF and checks out LF everywhere, so
+# Prettier (which expects LF) stays happy regardless of core.autocrlf.
+* text=auto eol=lf
+
+# Binary assets must never be line-ending converted.
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.webp binary
+*.woff binary
+*.woff2 binary
