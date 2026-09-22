@@ -1,9 +1,9 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { PageHero, Specialists } from "@/components/site/Sections";
 
-const title = "Certified Technologists & Specialists — Meridian Diagnostics";
+const title = "Certified Technologists & Specialists — Test Zone Diagnostic Centre";
 const description =
-  "Consultant pathologists, medical doctors, phlebotomists and laboratory technologists behind every Meridian report.";
+  "Consultant pathologists, medical doctors, phlebotomists and laboratory technologists behind every Test Zone report.";
 
 export const Route = createFileRoute("/specialists")({
   head: () => ({

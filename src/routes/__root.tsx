@@ -79,12 +79,13 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Meridian Diagnostics" },
+      { title: "Test Zone Diagnostic Centre — Precision in Health" },
       {
         name: "description",
-        content: "Accredited pathology and diagnostic laboratory with home sampling.",
+        content:
+          "ISO 15189:2022 accredited pathology and diagnostic laboratory with free home sampling across 100+ cities.",
       },
-      { name: "author", content: "Meridian Diagnostics" },
+      { name: "author", content: "Test Zone Diagnostic Centre" },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
@@ -100,6 +101,8 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         href: "https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap",
       },
       { rel: "icon", href: "/favicon.ico", type: "image/x-icon" },
+      { rel: "icon", href: "/favicon.png", type: "image/png", sizes: "64x64" },
+      { rel: "apple-touch-icon", href: "/favicon.png" },
     ],
   }),
   shellComponent: RootShell,

@@ -1,8 +1,9 @@
 import { Link } from "@tanstack/react-router";
-import { Mail, Phone, Menu, Activity, X, Clock, MessageCircle } from "lucide-react";
+import { Mail, Phone, Menu, X, Clock, MessageCircle } from "lucide-react";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { contact } from "@/data/contact";
+import logo from "@/assets/logo-tzdc.png";
 
 const navLinks = [
   { to: "/", label: "Home" },
@@ -51,13 +52,12 @@ export function Header() {
       <div className="border-b border-border bg-background">
         <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-3">
           <Link to="/" className="flex items-center gap-2.5">
-            <span className="grid size-10 place-items-center rounded-lg bg-navy text-navy-foreground">
-              <Activity className="size-5 text-green" />
-            </span>
+            {/* Decorative: the adjacent text already names the brand. */}
+            <img src={logo} alt="" aria-hidden="true" className="size-11 shrink-0 object-contain" />
             <span className="leading-tight">
-              <span className="block text-lg font-bold text-navy">Meridian</span>
+              <span className="block text-lg font-bold text-navy">Test Zone</span>
               <span className="block text-[11px] font-medium uppercase tracking-[0.18em] text-muted-foreground">
-                Diagnostics
+                Diagnostic Centre
               </span>
             </span>
           </Link>

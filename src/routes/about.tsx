@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { AboutFeatures, Accreditations, PageHero } from "@/components/site/Sections";
 
-const title = "About Meridian Diagnostics — Accuracy & Care";
+const title = "About Test Zone Diagnostic Centre — Accuracy & Care";
 const description =
   "Two decades of accredited pathology: quality systems, rapid turnaround and patient-first diagnostic care.";
 
@@ -23,7 +23,7 @@ function AboutPage() {
       <PageHero
         eyebrow="About us"
         title="Built on Accuracy & Care"
-        text="Meridian Diagnostics supports clinicians and families with evidence-backed testing, transparent quality control and a patient experience designed around trust."
+        text="Test Zone Diagnostic Centre supports clinicians and families with evidence-backed testing, transparent quality control and a patient experience designed around trust."
       />
       <AboutFeatures />
       <Accreditations />

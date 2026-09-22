@@ -1,6 +1,7 @@
 import { Link } from "@tanstack/react-router";
-import { Activity, Mail, MapPin, MessageCircle, Phone } from "lucide-react";
+import { Mail, MapPin, MessageCircle, Phone } from "lucide-react";
 import { contact } from "@/data/contact";
+import logo from "@/assets/logo-tzdc.png";
 
 const columns = [
   {
@@ -44,13 +45,13 @@ export function Footer() {
         <div className="grid gap-10 md:grid-cols-2 lg:grid-cols-4">
           <div>
             <div className="flex items-center gap-2.5">
-              <span className="grid size-10 place-items-center rounded-lg bg-navy-deep">
-                <Activity className="size-5 text-green" />
+              <span className="grid size-11 shrink-0 place-items-center rounded-full bg-white p-1">
+                <img src={logo} alt="" aria-hidden="true" className="size-full object-contain" />
               </span>
               <span className="leading-tight">
-                <span className="block text-lg font-bold">Meridian</span>
+                <span className="block text-lg font-bold">Test Zone</span>
                 <span className="block text-[11px] uppercase tracking-[0.18em] text-navy-foreground/60">
-                  Diagnostics
+                  Diagnostic Centre
                 </span>
               </span>
             </div>
@@ -111,7 +112,7 @@ export function Footer() {
 
       <div className="border-t border-navy-foreground/10">
         <div className="mx-auto max-w-7xl px-4 py-5 text-center text-xs text-navy-foreground/60">
-          © {new Date().getFullYear()} Meridian Diagnostics. All rights reserved.
+          © {new Date().getFullYear()} {contact.organisation}. All rights reserved.
         </div>
       </div>
     </footer>
