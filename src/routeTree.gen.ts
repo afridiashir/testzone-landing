@@ -12,8 +12,9 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as ContactRouteImport } from './routes/contact'
-import { Route as DepartmentsRouteImport } from './routes/departments'
 import { Route as SpecialistsRouteImport } from './routes/specialists'
+import { Route as DepartmentsIndexRouteImport } from './routes/departments.index'
+import { Route as DepartmentsSlugRouteImport } from './routes/departments.$slug'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -30,14 +31,19 @@ const ContactRoute = ContactRouteImport.update({
   path: '/contact',
   getParentRoute: () => rootRouteImport,
 } as any)
-const DepartmentsRoute = DepartmentsRouteImport.update({
-  id: '/departments',
-  path: '/departments',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const SpecialistsRoute = SpecialistsRouteImport.update({
   id: '/specialists',
   path: '/specialists',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DepartmentsIndexRoute = DepartmentsIndexRouteImport.update({
+  id: '/departments/',
+  path: '/departments/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DepartmentsSlugRoute = DepartmentsSlugRouteImport.update({
+  id: '/departments/$slug',
+  path: '/departments/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
 
@@ -45,38 +51,61 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/contact': typeof ContactRoute
-  '/departments': typeof DepartmentsRoute
   '/specialists': typeof SpecialistsRoute
+  '/departments/$slug': typeof DepartmentsSlugRoute
+  '/departments/': typeof DepartmentsIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/contact': typeof ContactRoute
-  '/departments': typeof DepartmentsRoute
   '/specialists': typeof SpecialistsRoute
+  '/departments/$slug': typeof DepartmentsSlugRoute
+  '/departments': typeof DepartmentsIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/contact': typeof ContactRoute
-  '/departments': typeof DepartmentsRoute
   '/specialists': typeof SpecialistsRoute
+  '/departments/$slug': typeof DepartmentsSlugRoute
+  '/departments/': typeof DepartmentsIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/about' | '/contact' | '/departments' | '/specialists'
+  fullPaths:
+    | '/'
+    | '/about'
+    | '/contact'
+    | '/specialists'
+    | '/departments/$slug'
+    | '/departments/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/about' | '/contact' | '/departments' | '/specialists'
-  id: '__root__' | '/' | '/about' | '/contact' | '/departments' | '/specialists'
+  to:
+    | '/'
+    | '/about'
+    | '/contact'
+    | '/specialists'
+    | '/departments/$slug'
+    | '/departments'
+  id:
+    | '__root__'
+    | '/'
+    | '/about'
+    | '/contact'
+    | '/specialists'
+    | '/departments/$slug'
+    | '/departments/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
   ContactRoute: typeof ContactRoute
-  DepartmentsRoute: typeof DepartmentsRoute
   SpecialistsRoute: typeof SpecialistsRoute
+  DepartmentsSlugRoute: typeof DepartmentsSlugRoute
+  DepartmentsIndexRoute: typeof DepartmentsIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -102,18 +131,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ContactRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/departments': {
-      id: '/departments'
-      path: '/departments'
-      fullPath: '/departments'
-      preLoaderRoute: typeof DepartmentsRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/specialists': {
       id: '/specialists'
       path: '/specialists'
       fullPath: '/specialists'
       preLoaderRoute: typeof SpecialistsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/departments/': {
+      id: '/departments/'
+      path: '/departments'
+      fullPath: '/departments/'
+      preLoaderRoute: typeof DepartmentsIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/departments/$slug': {
+      id: '/departments/$slug'
+      path: '/departments/$slug'
+      fullPath: '/departments/$slug'
+      preLoaderRoute: typeof DepartmentsSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
   }
@@ -123,8 +159,9 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
   ContactRoute: ContactRoute,
-  DepartmentsRoute: DepartmentsRoute,
   SpecialistsRoute: SpecialistsRoute,
+  DepartmentsSlugRoute: DepartmentsSlugRoute,
+  DepartmentsIndexRoute: DepartmentsIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

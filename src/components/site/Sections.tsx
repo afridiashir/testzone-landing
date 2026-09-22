@@ -1,13 +1,10 @@
+import { Link } from "@tanstack/react-router";
 import { Button } from "@/components/ui/button";
 import { MapPin, Home, Droplet, FileText, Target, Zap, Microscope } from "lucide-react";
+import { departments } from "@/data/departments";
 
 // Images Import from your assets
 import heroImage from "@/assets/hero-doctor.png";
-import deptHematology from "@/assets/dept-hematology.jpg";
-import deptClinical from "@/assets/dept-clinical.jpg";
-import deptMicrobiology from "@/assets/dept-microbiology.jpg";
-import deptMolecular from "@/assets/dept-molecular.jpg";
-import deptHistopathology from "@/assets/dept-histopathology.jpg";
 import accreditationsImg from "@/assets/accreditations.jpg";
 
 // 1. HERO SECTION
@@ -255,14 +252,6 @@ export function AboutFeatures() {
 
 // 4. DEPARTMENTS
 export function Departments() {
-  const depts = [
-    { title: "Hematology", img: deptHematology },
-    { title: "Clinical Pathology", img: deptClinical },
-    { title: "Microbiology & Virology", img: deptMicrobiology },
-    { title: "Histopathology & Cytopathology", img: deptHistopathology },
-    { title: "Molecular Genetics", img: deptMolecular },
-  ];
-
   return (
     <section className="py-20 bg-slate-50">
       <div className="container mx-auto px-4">
@@ -271,34 +260,35 @@ export function Departments() {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {depts.map((dept, i) => (
-            <div
-              key={i}
-              className="bg-white rounded-xl overflow-hidden shadow-sm border border-slate-200"
+          {departments.map((dept) => (
+            <Link
+              key={dept.slug}
+              to="/departments/$slug"
+              params={{ slug: dept.slug }}
+              className="group bg-white rounded-xl overflow-hidden shadow-sm border border-slate-200 hover:border-green-100 hover:shadow-lg hover:-translate-y-1 transition-all duration-300 flex flex-col"
             >
-              <img src={dept.img} alt={dept.title} className="w-full h-48 object-cover" />
-              <div className="p-6">
-                <h3 className="font-bold text-lg text-slate-900 mb-2">{dept.title}</h3>
-                <p className="text-sm text-slate-600 mb-4">
-                  Comprehensive testing and analysis for accurate diagnosis.
-                </p>
-                <a href="#" className="text-[#5bc55e] text-sm font-medium hover:underline">
+              <img src={dept.image} alt={dept.name} className="w-full h-48 object-cover" />
+              <div className="p-6 flex flex-col flex-1">
+                <h3 className="font-bold text-lg text-slate-900 mb-2">{dept.shortName}</h3>
+                <p className="text-sm text-slate-600 mb-4 flex-1">{dept.summary}</p>
+                <span className="mt-auto text-[#5bc55e] text-sm font-medium group-hover:underline">
                   Read more &rarr;
-                </a>
+                </span>
               </div>
-            </div>
+            </Link>
           ))}
 
           <div className="bg-[#1a2b56] rounded-xl p-8 flex flex-col items-center justify-center text-center text-white">
-            <h3 className="text-2xl font-bold mb-4">Full Test Directory</h3>
+            <h3 className="text-2xl font-bold mb-4">All Departments</h3>
             <p className="text-blue-200 mb-6">
-              Browse our complete list of diagnostic tests and profiles.
+              Browse every clinical and support department at Test Zone Diagnostic Centre.
             </p>
             <Button
               variant="outline"
               className="border-white bg-transparent hover:bg-white hover:text-[#1a2b56]"
+              asChild
             >
-              View Directory
+              <Link to="/departments">View Departments</Link>
             </Button>
           </div>
         </div>
