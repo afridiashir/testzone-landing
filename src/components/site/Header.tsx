@@ -1,9 +1,10 @@
 import { Link } from "@tanstack/react-router";
-import { Mail, Phone, Menu, X, Clock, MessageCircle } from "lucide-react";
+import { Mail, Phone, Menu, X, Clock, MessageCircle, ChevronDown } from "lucide-react";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { contact } from "@/data/contact";
 import logo from "@/assets/logo-tzdc.png";
+import { departments } from "@/data/departments";
 
 const navLinks = [
   { to: "/", label: "Home" },
@@ -63,17 +64,56 @@ export function Header() {
           </Link>
 
           <nav className="hidden items-center gap-8 lg:flex">
-            {navLinks.map((link) => (
-              <Link
-                key={link.to}
-                to={link.to}
-                activeOptions={{ exact: link.to === "/" }}
-                activeProps={{ className: "text-navy font-semibold" }}
-                className="text-sm font-medium text-muted-foreground transition-colors hover:text-navy"
-              >
-                {link.label}
-              </Link>
-            ))}
+            {navLinks.map((link) =>
+              link.to === "/departments" ? (
+                // Opens on hover and on keyboard focus, so the submenu is
+                // reachable without a pointer.
+                <div key={link.to} className="group relative">
+                  <Link
+                    to={link.to}
+                    activeProps={{ className: "text-navy font-semibold" }}
+                    className="inline-flex items-center gap-1 text-sm font-medium text-muted-foreground transition-colors hover:text-navy"
+                  >
+                    {link.label}
+                    <ChevronDown className="size-3.5 transition-transform group-hover:rotate-180" />
+                  </Link>
+
+                  <div className="invisible absolute left-1/2 top-full z-50 w-64 -translate-x-1/2 pt-3 opacity-0 transition-all group-hover:visible group-hover:opacity-100 group-focus-within:visible group-focus-within:opacity-100">
+                    <div className="overflow-hidden rounded-xl border border-border bg-background py-2 shadow-lg">
+                      {departments.map((dept) => (
+                        <Link
+                          key={dept.slug}
+                          to="/departments/$slug"
+                          params={{ slug: dept.slug }}
+                          activeProps={{ className: "bg-surface text-navy font-semibold" }}
+                          className="block px-4 py-2.5 text-sm text-muted-foreground transition-colors hover:bg-surface hover:text-navy"
+                        >
+                          {dept.shortName}
+                        </Link>
+                      ))}
+                      <div className="mt-1 border-t border-border pt-1">
+                        <Link
+                          to="/departments"
+                          className="block px-4 py-2.5 text-sm font-semibold text-green transition-colors hover:bg-surface"
+                        >
+                          All departments &rarr;
+                        </Link>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              ) : (
+                <Link
+                  key={link.to}
+                  to={link.to}
+                  activeOptions={{ exact: link.to === "/" }}
+                  activeProps={{ className: "text-navy font-semibold" }}
+                  className="text-sm font-medium text-muted-foreground transition-colors hover:text-navy"
+                >
+                  {link.label}
+                </Link>
+              ),
+            )}
           </nav>
 
           <div className="hidden items-center gap-3 md:flex">
@@ -99,16 +139,34 @@ export function Header() {
           <div className="border-t border-border bg-background px-4 py-4 lg:hidden">
             <nav className="flex flex-col gap-1">
               {navLinks.map((link) => (
-                <Link
-                  key={link.to}
-                  to={link.to}
-                  onClick={() => setOpen(false)}
-                  activeOptions={{ exact: link.to === "/" }}
-                  activeProps={{ className: "bg-surface text-navy" }}
-                  className="rounded-md px-3 py-2 text-sm font-medium text-muted-foreground"
-                >
-                  {link.label}
-                </Link>
+                <div key={link.to}>
+                  <Link
+                    to={link.to}
+                    onClick={() => setOpen(false)}
+                    activeOptions={{ exact: link.to === "/" }}
+                    activeProps={{ className: "bg-surface text-navy" }}
+                    className="block rounded-md px-3 py-2 text-sm font-medium text-muted-foreground"
+                  >
+                    {link.label}
+                  </Link>
+
+                  {link.to === "/departments" && (
+                    <div className="ml-3 border-l border-border pl-3">
+                      {departments.map((dept) => (
+                        <Link
+                          key={dept.slug}
+                          to="/departments/$slug"
+                          params={{ slug: dept.slug }}
+                          onClick={() => setOpen(false)}
+                          activeProps={{ className: "text-navy font-semibold" }}
+                          className="block rounded-md px-3 py-2 text-sm text-muted-foreground"
+                        >
+                          {dept.shortName}
+                        </Link>
+                      ))}
+                    </div>
+                  )}
+                </div>
               ))}
             </nav>
             <div className="mt-4 flex flex-col gap-2">
