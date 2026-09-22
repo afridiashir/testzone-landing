@@ -1,7 +1,8 @@
 import { Link } from "@tanstack/react-router";
-import { Mail, Phone, Menu, Activity, X, Clock } from "lucide-react";
+import { Mail, Phone, Menu, Activity, X, Clock, MessageCircle } from "lucide-react";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
+import { contact } from "@/data/contact";
 
 const navLinks = [
   { to: "/", label: "Home" },
@@ -20,14 +21,25 @@ export function Header() {
       <div className="bg-navy-deep text-navy-foreground/80">
         <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-x-6 gap-y-1 px-4 py-2 text-xs sm:text-[13px]">
           <div className="flex flex-wrap items-center gap-x-6 gap-y-1">
-            <a href="tel:+18005550132" className="inline-flex items-center gap-2 hover:text-green">
-              <Phone className="size-3.5" /> +1 (800) 555-0132
-            </a>
             <a
-              href="mailto:care@meridianlabs.com"
+              href={contact.phone.href}
               className="inline-flex items-center gap-2 hover:text-green"
             >
-              <Mail className="size-3.5" /> care@meridianlabs.com
+              <Phone className="size-3.5" /> {contact.phone.display}
+            </a>
+            <a
+              href={contact.whatsapp.href}
+              target="_blank"
+              rel="noreferrer"
+              className="inline-flex items-center gap-2 hover:text-green"
+            >
+              <MessageCircle className="size-3.5" /> {contact.whatsapp.display}
+            </a>
+            <a
+              href={contact.email.href}
+              className="inline-flex items-center gap-2 hover:text-green"
+            >
+              <Mail className="size-3.5" /> {contact.email.display}
             </a>
           </div>
           <span className="inline-flex items-center gap-2">

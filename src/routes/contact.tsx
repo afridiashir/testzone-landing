@@ -4,7 +4,8 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { Clock, Mail, MapPin, Phone } from "lucide-react";
+import { Clock, Mail, MapPin, MessageCircle, Phone } from "lucide-react";
+import { contact } from "@/data/contact";
 
 export const Route = createFileRoute("/contact")({
   component: ContactPage,
@@ -29,10 +30,7 @@ function ContactPage() {
     // WhatsApp message format
     const message = `*New Home Sampling Booking*%0A%0A*Patient Name:* ${name}%0A*Phone:* ${phone}%0A*Address:* ${address}%0A*Test Required:* ${testName}`;
 
-    // Apna actual WhatsApp number yahan dalein (with country code, without +)
-    const whatsappNumber = "923000000000";
-
-    window.open(`https://wa.me/${whatsappNumber}?text=${message}`, "_blank");
+    window.open(`https://wa.me/${contact.whatsapp.number}?text=${message}`, "_blank");
   };
 
   return (
@@ -53,7 +51,9 @@ function ContactPage() {
             <Phone className="mt-1 h-6 w-6 text-green-600" />
             <div>
               <h3 className="font-medium text-slate-900">Phone</h3>
-              <p className="text-slate-600">+92 300 0000000</p>
+              <a href={contact.phone.href} className="text-slate-600 hover:text-green-600">
+                {contact.phone.display}
+              </a>
             </div>
           </div>
 
@@ -61,15 +61,32 @@ function ContactPage() {
             <Mail className="mt-1 h-6 w-6 text-green-600" />
             <div>
               <h3 className="font-medium text-slate-900">Email</h3>
-              <p className="text-slate-600">care@testzone.com.pk</p>
+              <a href={contact.email.href} className="text-slate-600 hover:text-green-600">
+                {contact.email.display}
+              </a>
+            </div>
+          </div>
+
+          <div className="flex items-start space-x-4">
+            <MessageCircle className="mt-1 h-6 w-6 text-green-600" />
+            <div>
+              <h3 className="font-medium text-slate-900">WhatsApp</h3>
+              <a
+                href={contact.whatsapp.href}
+                target="_blank"
+                rel="noreferrer"
+                className="text-slate-600 hover:text-green-600"
+              >
+                {contact.whatsapp.display}
+              </a>
             </div>
           </div>
 
           <div className="flex items-start space-x-4">
             <MapPin className="mt-1 h-6 w-6 text-green-600" />
             <div>
-              <h3 className="font-medium text-slate-900">Head Laboratory</h3>
-              <p className="text-slate-600">Testzone Medical Complex, Main Boulevard, Lahore</p>
+              <h3 className="font-medium text-slate-900">{contact.headOffice.label}</h3>
+              <p className="text-slate-600">{contact.headOffice.address}</p>
             </div>
           </div>
 

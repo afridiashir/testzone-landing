@@ -3,6 +3,7 @@ import { CalendarCheck, Mail, MapPin, MessageCircle, Phone, Syringe } from "luci
 import { Button } from "@/components/ui/button";
 import { PageHero } from "@/components/site/Sections";
 import { vaccines, vaccinesByCategory } from "@/data/vaccines";
+import { contact } from "@/data/contact";
 
 const title = "Vaccination Services — Test Zone Diagnostic Centre";
 const description =
@@ -21,24 +22,9 @@ export const Route = createFileRoute("/vaccination")({
 });
 
 const contactMethods = [
-  {
-    icon: Phone,
-    label: "Phone",
-    value: "+92 42 35163747",
-    href: "tel:+924235163747",
-  },
-  {
-    icon: MessageCircle,
-    label: "WhatsApp",
-    value: "+92 336 4820296",
-    href: "https://wa.me/923364820296",
-  },
-  {
-    icon: Mail,
-    label: "Email",
-    value: "testzonelab@gmail.com",
-    href: "mailto:testzonelab@gmail.com",
-  },
+  { icon: Phone, label: "Phone", ...contact.phone },
+  { icon: MessageCircle, label: "WhatsApp", ...contact.whatsapp },
+  { icon: Mail, label: "Email", ...contact.email },
 ];
 
 function VaccinationPage() {
@@ -129,14 +115,14 @@ function VaccinationPage() {
                   <p className="text-xs font-bold uppercase tracking-wider text-slate-400">
                     {method.label}
                   </p>
-                  <p className="mt-1 text-sm font-semibold text-[#1a2b56]">{method.value}</p>
+                  <p className="mt-1 text-sm font-semibold text-[#1a2b56]">{method.display}</p>
                 </a>
               ))}
             </div>
 
             <div className="mt-8 inline-flex items-center gap-2 rounded-full bg-slate-50 px-5 py-2.5 text-sm text-slate-500">
               <MapPin className="size-4 text-[#5bc55e]" />
-              133-A, Faisal Town, Lahore, Pakistan
+              {contact.headOffice.address}
             </div>
           </div>
         </section>

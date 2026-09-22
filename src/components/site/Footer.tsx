@@ -1,5 +1,6 @@
 import { Link } from "@tanstack/react-router";
-import { Activity, Mail, MapPin, Phone } from "lucide-react";
+import { Activity, Mail, MapPin, MessageCircle, Phone } from "lucide-react";
+import { contact } from "@/data/contact";
 
 const columns = [
   {
@@ -59,13 +60,31 @@ export function Footer() {
             </p>
             <ul className="mt-5 space-y-3 text-sm text-navy-foreground/80">
               <li className="flex items-start gap-2.5">
-                <MapPin className="mt-0.5 size-4 text-green" /> 42 Grove Medical Park, Suite 300
+                <MapPin className="mt-0.5 size-4 shrink-0 text-green" />{" "}
+                {contact.headOffice.address}
               </li>
               <li className="flex items-center gap-2.5">
-                <Phone className="size-4 text-green" /> +1 (800) 555-0132
+                <Phone className="size-4 shrink-0 text-green" />
+                <a href={contact.phone.href} className="transition-colors hover:text-green">
+                  {contact.phone.display}
+                </a>
               </li>
               <li className="flex items-center gap-2.5">
-                <Mail className="size-4 text-green" /> care@meridianlabs.com
+                <MessageCircle className="size-4 shrink-0 text-green" />
+                <a
+                  href={contact.whatsapp.href}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="transition-colors hover:text-green"
+                >
+                  {contact.whatsapp.display}
+                </a>
+              </li>
+              <li className="flex items-center gap-2.5">
+                <Mail className="size-4 shrink-0 text-green" />
+                <a href={contact.email.href} className="transition-colors hover:text-green">
+                  {contact.email.display}
+                </a>
               </li>
             </ul>
           </div>
