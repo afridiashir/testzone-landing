@@ -311,3 +311,28 @@ export function Accreditations() {
     </section>
   );
 }
+// 7. PAGE HERO (inner pages)
+export function PageHero({ eyebrow, title, text }: { eyebrow: string; title: string; text: string }) {
+  return (
+    <section className="bg-gradient-to-br from-[#111c3a] via-[#1a2b56] to-[#121f40] pt-16 pb-36 text-white relative overflow-hidden">
+      {/* Subtle background overlay */}
+      <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-5"></div>
+
+      <div className="container mx-auto px-4 relative z-10">
+        <div className="max-w-3xl space-y-6">
+          <div className="inline-flex items-center gap-2 border border-green-500/40 bg-green-500/10 rounded-full px-4 py-1.5 backdrop-blur-sm">
+            <span className="relative flex h-2 w-2">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+              <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
+            </span>
+            <p className="text-xs font-bold text-green-400 tracking-widest uppercase">{eyebrow}</p>
+          </div>
+
+          <h1 className="text-4xl md:text-5xl font-extrabold leading-tight tracking-tight">{title}</h1>
+
+          <p className="text-blue-100/80 text-lg font-light">{text}</p>
+        </div>
+      </div>
+    </section>
+  );
+}
