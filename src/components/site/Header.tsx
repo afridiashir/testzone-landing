@@ -1,22 +1,31 @@
-import { Link } from "@tanstack/react-router";
+"use client";
+
+import Image from "next/image";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { Mail, Phone, Menu, X, Clock, MessageCircle, ChevronDown } from "lucide-react";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { contact } from "@/data/contact";
-import logo from "@/assets/logo-tzdc.png";
 import { departments } from "@/data/departments";
 
 const navLinks = [
-  { to: "/", label: "Home" },
-  { to: "/about", label: "About" },
-  { to: "/departments", label: "Departments" },
-  { to: "/vaccination", label: "Vaccination" },
-  { to: "/specialists", label: "Specialists" },
-  { to: "/contact", label: "Contact" },
+  { href: "/", label: "Home" },
+  { href: "/about", label: "About" },
+  { href: "/departments", label: "Departments" },
+  { href: "/vaccination", label: "Vaccination" },
+  { href: "/specialists", label: "Specialists" },
+  { href: "/contact", label: "Contact" },
 ] as const;
 
 export function Header() {
   const [open, setOpen] = useState(false);
+  const pathname = usePathname();
+
+  // "/" only matches exactly; every other link also matches its sub-routes,
+  // so /departments stays lit while on /departments/hematology.
+  const isActive = (href: string) =>
+    href === "/" ? pathname === "/" : pathname === href || pathname.startsWith(href + "/");
 
   return (
     <header className="sticky top-0 z-50">
@@ -52,9 +61,16 @@ export function Header() {
 
       <div className="border-b border-border bg-background">
         <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-3">
-          <Link to="/" className="flex items-center gap-2.5">
+          <Link href="/" className="flex items-center gap-2.5">
             {/* Decorative: the adjacent text already names the brand. */}
-            <img src={logo} alt="" aria-hidden="true" className="size-11 shrink-0 object-contain" />
+            <Image
+              width={256}
+              height={256}
+              src="/assets/logo-tzdc.png"
+              alt=""
+              aria-hidden="true"
+              className="size-11 shrink-0 object-contain"
+            />
             <span className="leading-tight">
               <span className="block text-lg font-bold text-navy">Test Zone</span>
               <span className="block text-[11px] font-medium uppercase tracking-[0.18em] text-muted-foreground">
@@ -65,14 +81,15 @@ export function Header() {
 
           <nav className="hidden items-center gap-8 lg:flex">
             {navLinks.map((link) =>
-              link.to === "/departments" ? (
+              link.href === "/departments" ? (
                 // Opens on hover and on keyboard focus, so the submenu is
                 // reachable without a pointer.
-                <div key={link.to} className="group relative">
+                <div key={link.href} className="group relative">
                   <Link
-                    to={link.to}
-                    activeProps={{ className: "text-navy font-semibold" }}
-                    className="inline-flex items-center gap-1 text-sm font-medium text-muted-foreground transition-colors hover:text-navy"
+                    href={link.href}
+                    className={`inline-flex items-center gap-1 text-sm font-medium transition-colors hover:text-navy ${
+                      isActive(link.href) ? "font-semibold text-navy" : "text-muted-foreground"
+                    }`}
                   >
                     {link.label}
                     <ChevronDown className="size-3.5 transition-transform group-hover:rotate-180" />
@@ -83,17 +100,19 @@ export function Header() {
                       {departments.map((dept) => (
                         <Link
                           key={dept.slug}
-                          to="/departments/$slug"
-                          params={{ slug: dept.slug }}
-                          activeProps={{ className: "bg-surface text-navy font-semibold" }}
-                          className="block px-4 py-2.5 text-sm text-muted-foreground transition-colors hover:bg-surface hover:text-navy"
+                          href={`/departments/${dept.slug}`}
+                          className={`block px-4 py-2.5 text-sm transition-colors hover:bg-surface hover:text-navy ${
+                            pathname === `/departments/${dept.slug}`
+                              ? "bg-surface font-semibold text-navy"
+                              : "text-muted-foreground"
+                          }`}
                         >
                           {dept.shortName}
                         </Link>
                       ))}
                       <div className="mt-1 border-t border-border pt-1">
                         <Link
-                          to="/departments"
+                          href="/departments"
                           className="block px-4 py-2.5 text-sm font-semibold text-green transition-colors hover:bg-surface"
                         >
                           All departments &rarr;
@@ -104,11 +123,11 @@ export function Header() {
                 </div>
               ) : (
                 <Link
-                  key={link.to}
-                  to={link.to}
-                  activeOptions={{ exact: link.to === "/" }}
-                  activeProps={{ className: "text-navy font-semibold" }}
-                  className="text-sm font-medium text-muted-foreground transition-colors hover:text-navy"
+                  key={link.href}
+                  href={link.href}
+                  className={`text-sm font-medium transition-colors hover:text-navy ${
+                    isActive(link.href) ? "font-semibold text-navy" : "text-muted-foreground"
+                  }`}
                 >
                   {link.label}
                 </Link>
@@ -118,10 +137,10 @@ export function Header() {
 
           <div className="hidden items-center gap-3 md:flex">
             <Button variant="outlineNavy" size="lg" asChild>
-              <Link to="/contact">View Reports</Link>
+              <Link href="/contact">View Reports</Link>
             </Button>
             <Button variant="cta" size="lg" asChild>
-              <Link to="/contact">Book Home Sampling</Link>
+              <Link href="/contact">Book Home Sampling</Link>
             </Button>
           </div>
 
@@ -139,27 +158,29 @@ export function Header() {
           <div className="border-t border-border bg-background px-4 py-4 lg:hidden">
             <nav className="flex flex-col gap-1">
               {navLinks.map((link) => (
-                <div key={link.to}>
+                <div key={link.href}>
                   <Link
-                    to={link.to}
+                    href={link.href}
                     onClick={() => setOpen(false)}
-                    activeOptions={{ exact: link.to === "/" }}
-                    activeProps={{ className: "bg-surface text-navy" }}
-                    className="block rounded-md px-3 py-2 text-sm font-medium text-muted-foreground"
+                    className={`block rounded-md px-3 py-2 text-sm font-medium ${
+                      isActive(link.href) ? "bg-surface text-navy" : "text-muted-foreground"
+                    }`}
                   >
                     {link.label}
                   </Link>
 
-                  {link.to === "/departments" && (
+                  {link.href === "/departments" && (
                     <div className="ml-3 border-l border-border pl-3">
                       {departments.map((dept) => (
                         <Link
                           key={dept.slug}
-                          to="/departments/$slug"
-                          params={{ slug: dept.slug }}
+                          href={`/departments/${dept.slug}`}
                           onClick={() => setOpen(false)}
-                          activeProps={{ className: "text-navy font-semibold" }}
-                          className="block rounded-md px-3 py-2 text-sm text-muted-foreground"
+                          className={`block rounded-md px-3 py-2 text-sm ${
+                            pathname === `/departments/${dept.slug}`
+                              ? "font-semibold text-navy"
+                              : "text-muted-foreground"
+                          }`}
                         >
                           {dept.shortName}
                         </Link>
@@ -171,12 +192,12 @@ export function Header() {
             </nav>
             <div className="mt-4 flex flex-col gap-2">
               <Button variant="outlineNavy" size="lg" asChild>
-                <Link to="/contact" onClick={() => setOpen(false)}>
+                <Link href="/contact" onClick={() => setOpen(false)}>
                   View Reports
                 </Link>
               </Button>
               <Button variant="cta" size="lg" asChild>
-                <Link to="/contact" onClick={() => setOpen(false)}>
+                <Link href="/contact" onClick={() => setOpen(false)}>
                   Book Home Sampling
                 </Link>
               </Button>

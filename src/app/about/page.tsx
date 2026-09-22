@@ -1,23 +1,17 @@
-import { createFileRoute } from "@tanstack/react-router";
+import type { Metadata } from "next";
 import { AboutFeatures, Accreditations, PageHero } from "@/components/site/Sections";
 
 const title = "About Test Zone Diagnostic Centre — Accuracy & Care";
 const description =
   "Two decades of accredited pathology: quality systems, rapid turnaround and patient-first diagnostic care.";
 
-export const Route = createFileRoute("/about")({
-  head: () => ({
-    meta: [
-      { title },
-      { name: "description", content: description },
-      { property: "og:title", content: title },
-      { property: "og:description", content: description },
-    ],
-  }),
-  component: AboutPage,
-});
+export const metadata: Metadata = {
+  title,
+  description,
+  openGraph: { title, description },
+};
 
-function AboutPage() {
+export default function AboutPage() {
   return (
     <>
       <PageHero

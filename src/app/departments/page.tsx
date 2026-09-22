@@ -1,4 +1,6 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import Image from "next/image";
+import type { Metadata } from "next";
+import Link from "next/link";
 import { ArrowRight, ShieldCheck } from "lucide-react";
 import { PageHero, QuickFeatures } from "@/components/site/Sections";
 import { departments, supportDepartments } from "@/data/departments";
@@ -7,19 +9,13 @@ const title = "Pathology & Diagnostic Departments — Test Zone Diagnostic Centr
 const description =
   "Hematology, special clinical chemistry & immunology, molecular biology, microbiology and histopathology under one ISO 15189:2022 accredited roof.";
 
-export const Route = createFileRoute("/departments/")({
-  head: () => ({
-    meta: [
-      { title },
-      { name: "description", content: description },
-      { property: "og:title", content: title },
-      { property: "og:description", content: description },
-    ],
-  }),
-  component: DepartmentsPage,
-});
+export const metadata: Metadata = {
+  title,
+  description,
+  openGraph: { title, description },
+};
 
-function DepartmentsPage() {
+export default function DepartmentsPage() {
   return (
     <>
       <PageHero
@@ -48,12 +44,13 @@ function DepartmentsPage() {
             {departments.map((dept) => (
               <Link
                 key={dept.slug}
-                to="/departments/$slug"
-                params={{ slug: dept.slug }}
+                href={`/departments/${dept.slug}`}
                 className="group flex flex-col overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-green-100 hover:shadow-lg"
               >
                 <div className="relative h-48 overflow-hidden">
-                  <img
+                  <Image
+                    width={1024}
+                    height={768}
                     src={dept.image}
                     alt={dept.name}
                     className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"

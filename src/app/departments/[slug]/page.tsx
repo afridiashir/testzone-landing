@@ -1,30 +1,30 @@
-import { createFileRoute, Link, notFound } from "@tanstack/react-router";
+import Image from "next/image";
+import type { Metadata } from "next";
+import Link from "next/link";
+import { notFound } from "next/navigation";
 import { ArrowLeft, ArrowRight, Check, ShieldCheck, UserCheck } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { departments, getDepartment, type DeptBlock } from "@/data/departments";
 
-export const Route = createFileRoute("/departments/$slug")({
-  loader: ({ params }) => {
-    const department = getDepartment(params.slug);
-    if (!department) throw notFound();
-    return department;
-  },
-  head: ({ params }) => {
-    const department = getDepartment(params.slug);
-    if (!department) return {};
+type PageProps = { params: Promise<{ slug: string }> };
 
-    const title = `${department.name} — Test Zone Diagnostic Centre`;
-    return {
-      meta: [
-        { title },
-        { name: "description", content: department.summary },
-        { property: "og:title", content: title },
-        { property: "og:description", content: department.summary },
-      ],
-    };
-  },
-  component: DepartmentDetailPage,
-});
+// The department list is static, so every page is prerendered at build time.
+export function generateStaticParams() {
+  return departments.map((department) => ({ slug: department.slug }));
+}
+
+export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+  const { slug } = await params;
+  const department = getDepartment(slug);
+  if (!department) return {};
+
+  const title = `${department.name} — Test Zone Diagnostic Centre`;
+  return {
+    title,
+    description: department.summary,
+    openGraph: { title, description: department.summary },
+  };
+}
 
 function BlockContent({ block }: { block: DeptBlock }) {
   if (block.type === "prose") {
@@ -66,8 +66,11 @@ function BlockContent({ block }: { block: DeptBlock }) {
   );
 }
 
-function DepartmentDetailPage() {
-  const department = Route.useLoaderData();
+export default async function DepartmentDetailPage({ params }: PageProps) {
+  const { slug } = await params;
+  const department = getDepartment(slug);
+  if (!department) notFound();
+
   const others = departments.filter((d) => d.slug !== department.slug);
 
   return (
@@ -77,7 +80,7 @@ function DepartmentDetailPage() {
 
         <div className="container relative z-10 mx-auto px-4">
           <Link
-            to="/departments"
+            href="/departments"
             className="mb-6 inline-flex items-center gap-2 text-sm text-blue-200/70 transition-colors hover:text-white"
           >
             <ArrowLeft className="size-4" /> All departments
@@ -116,7 +119,9 @@ function DepartmentDetailPage() {
 
             <aside className="lg:col-span-1">
               <div className="lg:sticky lg:top-28">
-                <img
+                <Image
+                  width={1024}
+                  height={768}
                   src={department.image}
                   alt={department.name}
                   className="mb-6 w-full rounded-xl border border-slate-100 object-cover shadow-sm"
@@ -129,7 +134,7 @@ function DepartmentDetailPage() {
                     nationwide.
                   </p>
                   <Button variant="cta" size="lg" className="w-full" asChild>
-                    <Link to="/contact">Book Home Sampling</Link>
+                    <Link href="/contact">Book Home Sampling</Link>
                   </Button>
                 </div>
               </div>
@@ -145,8 +150,7 @@ function DepartmentDetailPage() {
             {others.map((other) => (
               <Link
                 key={other.slug}
-                to="/departments/$slug"
-                params={{ slug: other.slug }}
+                href={`/departments/${other.slug}`}
                 className="group flex items-center justify-between gap-4 rounded-lg border border-slate-200 bg-white p-5 transition hover:border-green-100 hover:shadow-md"
               >
                 <span className="font-semibold text-[#1a2b56]">{other.shortName}</span>

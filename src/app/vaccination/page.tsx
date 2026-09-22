@@ -1,4 +1,5 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import type { Metadata } from "next";
+import Link from "next/link";
 import { CalendarCheck, Mail, MapPin, MessageCircle, Phone, Syringe } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { PageHero } from "@/components/site/Sections";
@@ -9,17 +10,11 @@ const title = "Vaccination Services — Test Zone Diagnostic Centre";
 const description =
   "Vaccination and immunization services at Test Zone Diagnostic Centre. Contact our Lahore head office to confirm availability and schedule an appointment.";
 
-export const Route = createFileRoute("/vaccination")({
-  head: () => ({
-    meta: [
-      { title },
-      { name: "description", content: description },
-      { property: "og:title", content: title },
-      { property: "og:description", content: description },
-    ],
-  }),
-  component: VaccinationPage,
-});
+export const metadata: Metadata = {
+  title,
+  description,
+  openGraph: { title, description },
+};
 
 const contactMethods = [
   { icon: Phone, label: "Phone", ...contact.phone },
@@ -27,7 +22,7 @@ const contactMethods = [
   { icon: Mail, label: "Email", ...contact.email },
 ];
 
-function VaccinationPage() {
+export default function VaccinationPage() {
   const categories = vaccinesByCategory();
 
   return (
@@ -140,7 +135,7 @@ function VaccinationPage() {
             </div>
             <div className="flex shrink-0 flex-wrap justify-center gap-3">
               <Button variant="cta" size="lg" asChild>
-                <Link to="/contact">Book Appointment</Link>
+                <Link href="/contact">Book Appointment</Link>
               </Button>
               <Button
                 variant="outline"
@@ -148,7 +143,7 @@ function VaccinationPage() {
                 className="border-white bg-transparent text-white hover:bg-white hover:text-[#1a2b56]"
                 asChild
               >
-                <Link to="/departments">View Departments</Link>
+                <Link href="/departments">View Departments</Link>
               </Button>
             </div>
           </div>

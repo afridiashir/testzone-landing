@@ -1,11 +1,10 @@
-import { Link } from "@tanstack/react-router";
+import Image from "next/image";
+import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { MapPin, Home, Droplet, FileText, Target, Zap, Microscope } from "lucide-react";
 import { departments } from "@/data/departments";
 
 // Images Import from your assets
-import heroImage from "@/assets/hero-doctor.png";
-import accreditationsImg from "@/assets/accreditations.jpg";
 
 // 1. HERO SECTION
 export function Hero() {
@@ -78,8 +77,10 @@ export function Hero() {
           {/* Blue glow effect behind the image */}
           <div className="absolute inset-0 bg-blue-500/20 blur-[100px] rounded-full"></div>
 
-          <img
-            src={heroImage}
+          <Image
+            width={1024}
+            height={1200}
+            src="/assets/hero-doctor.png"
             alt="Medical Professional"
             className="max-w-full h-auto object-cover rounded-2xl shadow-2xl z-10 border border-white/10 relative"
           />
@@ -263,11 +264,16 @@ export function Departments() {
           {departments.map((dept) => (
             <Link
               key={dept.slug}
-              to="/departments/$slug"
-              params={{ slug: dept.slug }}
+              href={`/departments/${dept.slug}`}
               className="group bg-white rounded-xl overflow-hidden shadow-sm border border-slate-200 hover:border-green-100 hover:shadow-lg hover:-translate-y-1 transition-all duration-300 flex flex-col"
             >
-              <img src={dept.image} alt={dept.name} className="w-full h-48 object-cover" />
+              <Image
+                width={1024}
+                height={768}
+                src={dept.image}
+                alt={dept.name}
+                className="w-full h-48 object-cover"
+              />
               <div className="p-6 flex flex-col flex-1">
                 <h3 className="font-bold text-lg text-slate-900 mb-2">{dept.shortName}</h3>
                 <p className="text-sm text-slate-600 mb-4 flex-1">{dept.summary}</p>
@@ -288,7 +294,7 @@ export function Departments() {
               className="border-white bg-transparent hover:bg-white hover:text-[#1a2b56]"
               asChild
             >
-              <Link to="/departments">View Departments</Link>
+              <Link href="/departments">View Departments</Link>
             </Button>
           </div>
         </div>
@@ -338,8 +344,10 @@ export function Accreditations() {
       <div className="container mx-auto px-4">
         <div className="flex flex-col md:flex-row items-center gap-12 mb-16">
           <div className="md:w-1/2">
-            <img
-              src={accreditationsImg}
+            <Image
+              width={1024}
+              height={912}
+              src="/assets/accreditations.jpg"
               alt="Accreditation Certificates"
               className="rounded-lg shadow-lg w-full"
             />
