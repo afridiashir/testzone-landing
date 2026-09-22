@@ -25,13 +25,13 @@ function ContactPage() {
   const handleWhatsAppSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     const { name, phone, address, testName } = formData;
-    
+
     // WhatsApp message format
     const message = `*New Home Sampling Booking*%0A%0A*Patient Name:* ${name}%0A*Phone:* ${phone}%0A*Address:* ${address}%0A*Test Required:* ${testName}`;
-    
+
     // Apna actual WhatsApp number yahan dalein (with country code, without +)
-    const whatsappNumber = "923000000000"; 
-    
+    const whatsappNumber = "923000000000";
+
     window.open(`https://wa.me/${whatsappNumber}?text=${message}`, "_blank");
   };
 
@@ -48,7 +48,7 @@ function ContactPage() {
         {/* Left Side: Contact Information */}
         <div className="space-y-8 rounded-xl bg-slate-50 p-8 shadow-sm border border-slate-100">
           <h2 className="text-2xl font-semibold text-slate-900">Get in Touch</h2>
-          
+
           <div className="flex items-start space-x-4">
             <Phone className="mt-1 h-6 w-6 text-green-600" />
             <div>
@@ -88,55 +88,58 @@ function ContactPage() {
           <form onSubmit={handleWhatsAppSubmit} className="space-y-4">
             <div className="space-y-2">
               <Label htmlFor="name">Patient Name</Label>
-              <Input 
-                id="name" 
-                name="name" 
-                placeholder="Enter full name" 
+              <Input
+                id="name"
+                name="name"
+                placeholder="Enter full name"
                 value={formData.name}
                 onChange={handleChange}
-                required 
+                required
               />
             </div>
-            
+
             <div className="space-y-2">
               <Label htmlFor="phone">Phone Number</Label>
-              <Input 
-                id="phone" 
-                name="phone" 
-                type="tel" 
-                placeholder="03XX XXXXXXX" 
+              <Input
+                id="phone"
+                name="phone"
+                type="tel"
+                placeholder="03XX XXXXXXX"
                 value={formData.phone}
                 onChange={handleChange}
-                required 
+                required
               />
             </div>
 
             <div className="space-y-2">
               <Label htmlFor="testName">Test / Package Required</Label>
-              <Input 
-                id="testName" 
-                name="testName" 
-                placeholder="e.g. Complete Blood Count (CBC)" 
+              <Input
+                id="testName"
+                name="testName"
+                placeholder="e.g. Complete Blood Count (CBC)"
                 value={formData.testName}
                 onChange={handleChange}
-                required 
+                required
               />
             </div>
 
             <div className="space-y-2">
               <Label htmlFor="address">Home Address for Sampling</Label>
-              <Textarea 
-                id="address" 
-                name="address" 
-                placeholder="Enter complete house address" 
+              <Textarea
+                id="address"
+                name="address"
+                placeholder="Enter complete house address"
                 rows={3}
                 value={formData.address}
                 onChange={handleChange}
-                required 
+                required
               />
             </div>
 
-            <Button type="submit" className="w-full bg-green-600 hover:bg-green-700 text-white py-6 text-lg">
+            <Button
+              type="submit"
+              className="w-full bg-green-600 hover:bg-green-700 text-white py-6 text-lg"
+            >
               Book via WhatsApp
             </Button>
           </form>
