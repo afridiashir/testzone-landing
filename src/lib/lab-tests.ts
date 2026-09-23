@@ -2,12 +2,7 @@ import type { LabTest } from "@prisma/client";
 import { prisma } from "@/lib/prisma";
 
 export type { LabTest };
-
-/** Rates in the catalogue are Pakistani rupees. */
-export function formatRate(rate: number | null): string {
-  if (rate === null) return "Price on request";
-  return `PKR ${rate.toLocaleString("en-PK")}`;
-}
+export { formatRate } from "@/lib/format";
 
 export async function getCategories(): Promise<{ category: string; count: number }[]> {
   const groups = await prisma.labTest.groupBy({
@@ -59,17 +54,16 @@ export type SearchTestsResult = {
 
 /**
  * The catalogue is ~700 rows, so it is paginated rather than shipped whole.
- * SQLite's `contains` is already case-insensitive for ASCII, and Prisma's
- * `mode: "insensitive"` is not supported on the SQLite connector.
+ * Postgres `contains` is case-sensitive, so search opts into ILIKE matching.
  */
 export async function searchTests({
   query,
   category,
   page = 1,
-  perPage = 25,
+  perPage = 24,
 }: SearchTestsArgs): Promise<SearchTestsResult> {
   const where = {
-    ...(query ? { name: { contains: query } } : {}),
+    ...(query ? { name: { contains: query, mode: "insensitive" as const } } : {}),
     ...(category ? { category } : {}),
   };
 

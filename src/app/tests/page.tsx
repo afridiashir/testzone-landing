@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { Suspense } from "react";
-import { ArrowRight, FlaskConical } from "lucide-react";
+import { CalendarClock, FlaskConical } from "lucide-react";
+import { AddToCartButtons } from "@/components/cart/AddToCartButtons";
 import { PageHero } from "@/components/site/Sections";
 import { getCategories, getTestCount, searchTests, formatRate } from "@/lib/lab-tests";
 import { SearchControls } from "./search-controls";
@@ -106,7 +107,7 @@ export default async function TestsPage({ searchParams }: PageProps) {
       />
 
       <section className="bg-white py-16">
-        <div className="container mx-auto max-w-5xl px-4">
+        <div className="container mx-auto max-w-6xl px-4">
           <Suspense fallback={<div className="mb-10 h-32" />}>
             <SearchControls categories={categories} />
           </Suspense>
@@ -132,30 +133,48 @@ export default async function TestsPage({ searchParams }: PageProps) {
                 {q ? ` matching “${q}”` : ""}
               </p>
 
-              <ul className="divide-y divide-slate-100 overflow-hidden rounded-xl border border-slate-200">
+              <ul className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
                 {result.tests.map((test) => (
-                  <li key={test.id}>
+                  <li
+                    key={test.id}
+                    className="flex flex-col rounded-xl border border-slate-200 bg-white p-5 shadow-card transition hover:border-green-200"
+                  >
+                    <span className="mb-3 self-start rounded-full bg-surface-blue px-2.5 py-1 text-[11px] font-semibold text-[#1a2b56]">
+                      {test.category}
+                    </span>
+
                     <Link
                       href={`/tests/${test.slug}`}
-                      className="group flex items-center justify-between gap-4 bg-white px-5 py-4 transition hover:bg-slate-50"
+                      className="font-semibold leading-snug text-[#1a2b56] hover:text-[#5bc55e]"
                     >
-                      <span className="min-w-0">
-                        <span className="block font-medium text-[#1a2b56] group-hover:text-[#5bc55e]">
-                          {test.name}
-                        </span>
-                        <span className="mt-0.5 block text-xs text-slate-400">{test.category}</span>
-                      </span>
-                      <span className="flex shrink-0 items-center gap-3">
-                        <span
-                          className={`text-sm font-semibold ${
-                            test.rate === null ? "text-slate-400" : "text-[#1a2b56]"
-                          }`}
-                        >
-                          {formatRate(test.rate)}
-                        </span>
-                        <ArrowRight className="size-4 text-slate-300 transition-transform group-hover:translate-x-1 group-hover:text-[#5bc55e]" />
-                      </span>
+                      {test.name}
                     </Link>
+
+                    {test.reportingDay && (
+                      <span className="mt-2 inline-flex items-center gap-1.5 text-xs text-slate-500">
+                        <CalendarClock className="size-3.5 text-slate-400" />
+                        {test.reportingDay}
+                      </span>
+                    )}
+
+                    <div className="mt-auto pt-5">
+                      <p
+                        className={`mb-3 text-lg font-bold ${
+                          test.rate === null ? "text-base text-slate-400" : "text-[#1a2b56]"
+                        }`}
+                      >
+                        {formatRate(test.rate)}
+                      </p>
+                      <AddToCartButtons
+                        test={{
+                          id: test.id,
+                          slug: test.slug,
+                          name: test.name,
+                          category: test.category,
+                          rate: test.rate,
+                        }}
+                      />
+                    </div>
                   </li>
                 ))}
               </ul>
@@ -166,8 +185,8 @@ export default async function TestsPage({ searchParams }: PageProps) {
 
           <p className="mt-10 flex items-start gap-2 rounded-lg bg-slate-50 p-4 text-xs leading-relaxed text-slate-500">
             <FlaskConical className="mt-0.5 size-4 shrink-0 text-[#5bc55e]" />
-            Rates are from the 2026 Test Zone Diagnostic Centre rate list and may change. Please
-            confirm the current price and any sample requirements before booking.
+            Rates are from the 2026 Test Zone Diagnostic Centre rate list and may change. Our team
+            calls to confirm the current price and any sample requirements after you book.
           </p>
         </div>
       </section>

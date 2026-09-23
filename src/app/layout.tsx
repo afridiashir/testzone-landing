@@ -5,6 +5,8 @@ import type { ReactNode } from "react";
 import "./globals.css";
 import { Header } from "@/components/site/Header";
 import { Footer } from "@/components/site/Footer";
+import { CartBar } from "@/components/cart/CartBar";
+import { CartProvider } from "@/lib/cart";
 
 // Self-hosted by Next at build time — no render-blocking request to Google.
 const inter = Inter({
@@ -37,11 +39,14 @@ export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="en" className={inter.variable}>
       <body>
-        <div className="flex min-h-screen flex-col">
-          <Header />
-          <main className="flex-1">{children}</main>
-          <Footer />
-        </div>
+        <CartProvider>
+          <div className="flex min-h-screen flex-col">
+            <Header />
+            <main className="flex-1">{children}</main>
+            <Footer />
+          </div>
+          <CartBar />
+        </CartProvider>
       </body>
     </html>
   );

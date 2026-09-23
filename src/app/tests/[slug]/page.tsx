@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowLeft, ArrowRight, Building2, CalendarClock, Tag } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { AddToCartButtons } from "@/components/cart/AddToCartButtons";
 import { contact } from "@/data/contact";
 import { getDepartment } from "@/data/departments";
 import { formatRate, getRelatedTests, getTestBySlug } from "@/lib/lab-tests";
@@ -32,10 +32,6 @@ export default async function TestDetailPage({ params }: PageProps) {
     getRelatedTests(test),
     Promise.resolve(test.departmentSlug ? getDepartment(test.departmentSlug) : undefined),
   ]);
-
-  const bookingMessage = encodeURIComponent(
-    `Hello, I would like to book the following test at Test Zone Diagnostic Centre:\n\n${test.name}`,
-  );
 
   return (
     <>
@@ -120,28 +116,29 @@ export default async function TestDetailPage({ params }: PageProps) {
               <div className="rounded-xl bg-[#1a2b56] p-6 text-white lg:sticky lg:top-28">
                 <h2 className="mb-2 text-lg font-bold">Book this test</h2>
                 <p className="mb-5 text-sm leading-relaxed text-blue-200">
-                  Free home sampling nationwide, or visit any of our 83 collection centres.
+                  Add it to your cart with any other tests, then choose a lab visit or free home
+                  sampling at checkout.
                 </p>
 
-                <div className="space-y-2.5">
-                  <Button variant="cta" size="lg" className="w-full" asChild>
-                    <a
-                      href={`${contact.whatsapp.href}?text=${bookingMessage}`}
-                      target="_blank"
-                      rel="noreferrer"
-                    >
-                      Book via WhatsApp
-                    </a>
-                  </Button>
-                  <Button
-                    variant="outline"
-                    size="lg"
-                    className="w-full border-white/30 bg-transparent text-white hover:bg-white hover:text-[#1a2b56]"
-                    asChild
-                  >
-                    <a href={contact.phone.href}>{contact.phone.display}</a>
-                  </Button>
-                </div>
+                <AddToCartButtons
+                  size="lg"
+                  tone="dark"
+                  className="grid-cols-1"
+                  test={{
+                    id: test.id,
+                    slug: test.slug,
+                    name: test.name,
+                    category: test.category,
+                    rate: test.rate,
+                  }}
+                />
+
+                <p className="mt-5 border-t border-white/10 pt-4 text-xs text-blue-200">
+                  Prefer to talk?{" "}
+                  <a href={contact.phone.href} className="font-semibold text-white hover:underline">
+                    {contact.phone.display}
+                  </a>
+                </p>
               </div>
             </aside>
           </div>

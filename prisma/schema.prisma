@@ -1,16 +1,16 @@
-// Test Zone Diagnostic Centre — lab test catalogue.
+// Test Zone Diagnostic Centre — lab test catalogue and bookings.
 //
-// SQLite by default so the project runs with no database server to set up.
-// To move to Postgres: change `provider` to "postgresql" and point
-// DATABASE_URL at your server — no model changes are needed.
+// Postgres (Neon). DATABASE_URL is the pooled connection the app uses;
+// DIRECT_URL bypasses the pooler, which Prisma Migrate needs.
 
 generator client {
   provider = "prisma-client-js"
 }
 
 datasource db {
-  provider = "sqlite"
-  url      = env("DATABASE_URL")
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
 }
 
 model LabTest {
@@ -39,6 +39,65 @@ model LabTest {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
+  bookingItems BookingItem[]
+
   @@index([category])
   @@index([name])
+}
+
+/// A test booking placed from the website cart. Staff pick these up and
+/// confirm with the patient by phone.
+model Booking {
+  id Int @id @default(autoincrement())
+
+  /// Short code shown to the patient, e.g. "TZ-7K3QXP".
+  reference String @unique
+
+  patientName String
+  phone       String
+  age         Int
+  city        String
+
+  /// "LAB" (patient visits a centre) or "HOME" (home sample collection).
+  preference String
+  /// Required when preference is "HOME".
+  address    String?
+
+  /// Preferred date/time as entered, both optional.
+  preferredDate String?
+  preferredTime String?
+
+  /// Sum of priced items in PKR at booking time. Tests with no published
+  /// price are excluded and quoted by staff.
+  subtotal Int
+
+  /// "PENDING", "CONFIRMED", "COMPLETED" or "CANCELLED".
+  status String @default("PENDING")
+
+  items BookingItem[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([status])
+  @@index([createdAt])
+}
+
+/// One line of a booking. Name and rate are copied at booking time so a later
+/// rate-list reseed cannot change what the patient was quoted, and the link to
+/// LabTest is dropped rather than blocking the reseed if a test is removed.
+model BookingItem {
+  id Int @id @default(autoincrement())
+
+  bookingId Int
+  booking   Booking @relation(fields: [bookingId], references: [id], onDelete: Cascade)
+
+  labTestId Int?
+  labTest   LabTest? @relation(fields: [labTestId], references: [id], onDelete: SetNull)
+
+  name     String
+  rate     Int?
+  quantity Int
+
+  @@index([bookingId])
 }

@@ -5,7 +5,7 @@ Marketing site for Test Zone Diagnostic Centre (TZDC) — Precision in Health.
 ## Stack
 
 - [Next.js 15](https://nextjs.org) (App Router, React 19)
-- [Prisma 6](https://www.prisma.io) with SQLite (lab test catalogue)
+- [Prisma 6](https://www.prisma.io) with Postgres on [Neon](https://neon.tech) (lab test catalogue and bookings)
 - Tailwind CSS v4 via `@tailwindcss/postcss`
 - shadcn/ui + Radix primitives
 - TypeScript
@@ -16,23 +16,24 @@ You need Node.js and npm — [install with nvm](https://github.com/nvm-sh/nvm#in
 
 ```sh
 npm install
-cp .env.example .env
-npm run db:push   # create the SQLite database
-npm run db:seed   # load the lab test catalogue from the rate list
+cp .env.example .env   # then fill in DATABASE_URL and DIRECT_URL
+npm run db:migrate    # apply migrations to the database
+npm run db:seed       # load the lab test catalogue from the rate list
 npm run dev       # http://localhost:3000
 ```
 
-| Script              | Does                                       |
-| ------------------- | ------------------------------------------ |
-| `npm run dev`       | Dev server with hot reload                 |
-| `npm run build`     | Production build                           |
-| `npm start`         | Serve the production build                 |
-| `npm run lint`      | ESLint (Next core-web-vitals + Prettier)   |
-| `npm run format`    | Prettier write                             |
-| `npm run db:push`   | Apply the Prisma schema to the database    |
-| `npm run db:seed`   | Seed lab tests from `prisma/lab-tests.csv` |
-| `npm run db:reset`  | Drop, recreate and re-seed                 |
-| `npm run db:studio` | Browse the database in Prisma Studio       |
+| Script               | Does                                        |
+| -------------------- | ------------------------------------------- |
+| `npm run dev`        | Dev server with hot reload                  |
+| `npm run build`      | Production build                            |
+| `npm start`          | Serve the production build                  |
+| `npm run lint`       | ESLint (Next core-web-vitals + Prettier)    |
+| `npm run format`     | Prettier write                              |
+| `npm run db:migrate` | Create/apply a migration after schema edits |
+| `npm run db:deploy`  | Apply pending migrations (production)       |
+| `npm run db:seed`    | Seed lab tests from `prisma/lab-tests.csv`  |
+| `npm run db:reset`   | Drop, re-migrate and re-seed                |
+| `npm run db:studio`  | Browse the database in Prisma Studio        |
 
 ## Structure
 
@@ -70,9 +71,14 @@ Two things the seed derives, because the rate list does not supply them:
 - **Price on request** — a rate of `0` is stored as null and displayed as
   "Price on request", never "PKR 0".
 
-SQLite needs no setup and the database file is gitignored. For a hosted
-database, change `provider` in `prisma/schema.prisma` to `postgresql` and
-point `DATABASE_URL` at your server; no model changes are needed.
+The database is Postgres on Neon. `DATABASE_URL` is the pooled connection the
+app uses at runtime; `DIRECT_URL` is the same host without `-pooler`, which
+Prisma Migrate needs. Schema changes go through `npm run db:migrate`, which
+writes a migration under `prisma/migrations/` to commit alongside the change;
+production applies them with `npm run db:deploy`.
+
+Bookings from the cart are stored in the `Booking` and `BookingItem` tables.
+Browse them with `npm run db:studio` or in the Neon console.
 
 Content lives in `src/data/` rather than being inlined in components:
 

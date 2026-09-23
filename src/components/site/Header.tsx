@@ -6,6 +6,7 @@ import { usePathname } from "next/navigation";
 import { Mail, Phone, Menu, X, Clock, MessageCircle, ChevronDown } from "lucide-react";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
+import { CartButton } from "@/components/cart/CartButton";
 import { contact } from "@/data/contact";
 import { departments } from "@/data/departments";
 
@@ -136,23 +137,27 @@ export function Header() {
             )}
           </nav>
 
-          <div className="hidden items-center gap-3 md:flex">
-            <Button variant="outlineNavy" size="lg" asChild>
-              <Link href="/contact">View Reports</Link>
-            </Button>
-            <Button variant="cta" size="lg" asChild>
-              <Link href="/contact">Book Home Sampling</Link>
-            </Button>
-          </div>
+          <div className="flex items-center gap-3">
+            <div className="hidden items-center gap-3 md:flex">
+              <Button variant="outlineNavy" size="lg" asChild>
+                <Link href="/contact">View Reports</Link>
+              </Button>
+              <Button variant="cta" size="lg" asChild>
+                <Link href="/tests">Book a Test</Link>
+              </Button>
+            </div>
 
-          <button
-            type="button"
-            aria-label="Toggle menu"
-            onClick={() => setOpen((v) => !v)}
-            className="grid size-10 place-items-center rounded-md border border-border text-navy lg:hidden"
-          >
-            {open ? <Menu className="size-5" /> : <X className="size-5 rotate-90" />}
-          </button>
+            <CartButton />
+
+            <button
+              type="button"
+              aria-label="Toggle menu"
+              onClick={() => setOpen((v) => !v)}
+              className="grid size-10 place-items-center rounded-md border border-border text-navy lg:hidden"
+            >
+              {open ? <Menu className="size-5" /> : <X className="size-5 rotate-90" />}
+            </button>
+          </div>
         </div>
 
         {open && (
@@ -198,8 +203,8 @@ export function Header() {
                 </Link>
               </Button>
               <Button variant="cta" size="lg" asChild>
-                <Link href="/contact" onClick={() => setOpen(false)}>
-                  Book Home Sampling
+                <Link href="/tests" onClick={() => setOpen(false)}>
+                  Book a Test
                 </Link>
               </Button>
             </div>
