@@ -10,6 +10,7 @@ const columns = [
       { label: "Home", href: "/" },
       { label: "About Us", href: "/about" },
       { label: "Departments", href: "/departments" },
+      { label: "Lab Tests", href: "/tests" },
       { label: "Vaccination", href: "/vaccination" },
       { label: "Specialists", href: "/specialists" },
       { label: "Contact", href: "/contact" },
@@ -20,7 +21,7 @@ const columns = [
     links: [
       { label: "Home Sampling", href: "/contact" },
       { label: "Vaccination", href: "/vaccination" },
-      { label: "Full Test Directory", href: "/departments" },
+      { label: "Full Test Directory", href: "/tests" },
       { label: "Corporate Health Panels", href: "/departments" },
       { label: "Doctor Consultation", href: "/specialists" },
       { label: "Online Reports", href: "/contact" },

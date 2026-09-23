@@ -1,0 +1,44 @@
+// Test Zone Diagnostic Centre — lab test catalogue.
+//
+// SQLite by default so the project runs with no database server to set up.
+// To move to Postgres: change `provider` to "postgresql" and point
+// DATABASE_URL at your server — no model changes are needed.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model LabTest {
+  id Int @id @default(autoincrement())
+
+  /// URL segment, e.g. "hemoglobin-a1c-hba1c". Derived from `name`.
+  slug String @unique
+  /// Display name, with the redundant "( At Test Zone ... )" suffix stripped.
+  name String
+  /// Price in PKR. Null means the rate list carried no price — shown as
+  /// "Price on request" rather than a misleading "PKR 0".
+  rate Int?
+
+  /// Department this test belongs to. Derived from the test name, since the
+  /// rate list's own "Test Type" column is the same value for every row.
+  category String
+  /// Matching slug in src/data/departments.ts, when one exists.
+  departmentSlug String?
+
+  /// Turnaround, when the rate list supplies one.
+  reportingDay String?
+
+  /// Name as it appears in the source rate list, kept for reconciliation.
+  sourceName String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([category])
+  @@index([name])
+}

@@ -12,12 +12,19 @@ dist
 dist-ssr
 .output
 
+# Prisma: local SQLite database and generated client
+*.db
+*.db-journal
+src/generated/prisma/
+
 # Next.js
 .next/
 out/
 next-env.d.ts
 *.tsbuildinfo
 *.local
+.env
+!.env.example
 
 # Wrangler / Cloudflare
 .wrangler/
