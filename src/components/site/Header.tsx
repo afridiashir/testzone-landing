@@ -151,11 +151,12 @@ export function Header() {
 
             <button
               type="button"
-              aria-label="Toggle menu"
+              aria-label={open ? "Close menu" : "Open menu"}
+              aria-expanded={open}
               onClick={() => setOpen((v) => !v)}
               className="grid size-10 place-items-center rounded-md border border-border text-navy lg:hidden"
             >
-              {open ? <Menu className="size-5" /> : <X className="size-5 rotate-90" />}
+              {open ? <X className="size-5" /> : <Menu className="size-5" />}
             </button>
           </div>
         </div>
